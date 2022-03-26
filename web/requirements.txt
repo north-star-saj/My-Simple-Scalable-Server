@@ -11,4 +11,5 @@ django
 notebook
 h5py
 mysql-connector-python
+mysqlclient
 psycopg2

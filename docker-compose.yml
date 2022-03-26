@@ -19,7 +19,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: "root"
-      # MYSQL_DATABASE: "core"
+      MYSQL_DATABASE: "my-app-db"
       MYSQL_USER: "admin"
       MYSQL_PASSWORD: "password"
   
@@ -33,7 +33,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      # MYSQL_DATABASE: "core"
+      MYSQL_DATABASE: "my-app-db"
       MYSQL_USER: "admin"
       MYSQL_PASSWORD: "password"
     depends_on:
