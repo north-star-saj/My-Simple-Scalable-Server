@@ -1,23 +1,44 @@
-version: '3.4'
+version: '3.9'
 
 services:
-  mysimplescalableserver:
-    image: mysimplescalableserver
+  playground:
+    image: playground
     build:
-      context: .
-      dockerfile: .backend//Dockerfile
+      context: ./playground/
+      dockerfile: ./Dockerfile
     volumes:
       # Mount the root folder that contains .git
-      - .:/worksapce:cached
+      - .:/workspace:cached
     command: /bin/sh -c "while sleep 1000; do :; done"
-  
+
   db:
     image: mysql
+    volumes:
+      - ./data/db:/var/lib/mysql
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: "root"
-
+      # MYSQL_DATABASE: "core"
+      MYSQL_USER: "admin"
+      MYSQL_PASSWORD: "password"
+  
+  web:
+    build:
+      context: ./web/
+      dockerfile: ./Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/workspace:cached
+    ports:
+      - "8000:8000"
+    environment:
+      # MYSQL_DATABASE: "core"
+      MYSQL_USER: "admin"
+      MYSQL_PASSWORD: "password"
+    depends_on:
+      - db
+  
   adminer:
     image: adminer
     restart: always
