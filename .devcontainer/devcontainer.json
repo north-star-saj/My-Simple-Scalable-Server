@@ -1,12 +1,11 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.224.3/containers/python-3
 {
-	"name": "Python 3",
-	"dockerComposeFile": ["../docker-compose.yml"],
-	"service": "playground",
-	"shutdownAction": "none",
-	"workspaceFolder": "/workspace/playground",
-
+	"name": "My-Simple-Scalable-Server",
+	"dockerComposeFile": ["../docker-compose.yml", "docker-compose.extend.yml"],
+	"service": "web",
+	"shutdownAction": "stopCompose",
+	"workspaceFolder": "/workspace/web",
 	// Set *default* container specific settings.json values on container create.
 	"settings": { 
 		"python.defaultInterpreterPath": "/usr/local/bin/python",

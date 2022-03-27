@@ -6,10 +6,7 @@ services:
     build:
       context: ./playground/
       dockerfile: ./Dockerfile
-    volumes:
-      # Mount the root folder that contains .git
-      - .:/workspace:cached
-    command: /bin/sh -c "while sleep 1000; do :; done"
+    
 
   db:
     image: mysql
@@ -27,9 +24,7 @@ services:
     build:
       context: ./web/
       dockerfile: ./Dockerfile
-    command: python manage.py runserver 0.0.0.0:8000
-    volumes:
-      - .:/workspace:cached
+    command: python ./workspace//web/manage.py runserver 0.0.0.0:8000
     ports:
       - "8000:8000"
     environment:
