@@ -1,13 +1,6 @@
 version: '3.9'
 
 services:
-  playground:
-    image: playground
-    build:
-      context: ./playground/
-      dockerfile: ./Dockerfile
-    
-
   db:
     image: mysql
     volumes:
