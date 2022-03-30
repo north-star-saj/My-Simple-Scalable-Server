@@ -15,8 +15,8 @@ services:
   
   web:
     build:
-      context: ./web/
-      dockerfile: ./Dockerfile
+      context: ./
+      dockerfile: ./web/Dockerfile
     command: python ./workspace//web/manage.py runserver 0.0.0.0:8000
     ports:
       - "8000:8000"
