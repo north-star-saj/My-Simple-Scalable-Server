@@ -1,7 +1,12 @@
 # todo_list/todo_app/views.py
-from django.urls import reverse
+
+from django.urls import (
+    reverse,
+    reverse_lazy,
+)
 from django.views.generic import (
     CreateView,
+    DeleteView,
     ListView,
     UpdateView,
 )
@@ -42,13 +47,20 @@ class ListCreate(CreateView):
 
 class ItemCreate(CreateView):
     model = ToDoItem
-    fields = ["todo", "title" "description" "due_date"]
+    fields = ["todo", "title", "description", "due_date"]
 
     def get_initial(self):
-        intial_data = super().get_initial()
+        initial_data = super().get_initial()
         todo_list = ToDoList.objects.get(id=self.kwargs["list_id"])
-        intial_data["todo"] = todo_list
-        return intial_data
+        initial_data["todo"] = todo_list
+        return initial_data
+
+    def get_context_data(self):
+        context = super().get_context_data()
+        todo_list = ToDoList.objects.get(id=self.kwargs["list_id"])
+        context["todo"] = todo_list
+        context["title"] = "Create a new item"
+        return context
 
     def get_success_url(self):
         return reverse("list", args=[self.object.todo_id])
@@ -71,3 +83,22 @@ class ItemUpdate(UpdateView):
 
     def get_success_url(self):
         return reverse("list", args=[self.object.todo_id])
+
+
+class ListDelete(DeleteView):
+    model = ToDoList
+    # you have to use reverse_lazy() instead of reverse(),
+    # as the urls are not loaded when the file is imported
+    success_url = reverse_lazy("index")
+
+
+class ItemDelete(DeleteView):
+    model = ToDoItem
+
+    def get_success_url(self) -> str:
+        return reverse_lazy("list", args=[self.kwargs["list_id"]])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["todo"] = self.object.todo
+        return context
